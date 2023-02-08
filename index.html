@@ -1,60 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis calificaciones</title>
 
     <link rel="stylesheet" href="./src/css/estilos.css">
+
 </head>
 
 <body>
     <header>
-
-        <img src="./src/images/logo.png"
-         alt="Logo de la universidad">
-        Administracion de mis calificaciones
-
+    <!--Insertar el logo de la universidad-->   
+     <img src="./src/images/logo.png" 
+        alt="Logo de la universidad">
+    Administracion de mis calificaciones
     </header>
 
-    <nav class="flex justify-between p-4 text-white bg-green-500">
+    <nav>
         <ul>
-            <li>
+            <li class="border-hover">
                 <a href="index.html">Inicio</a>
             </li>
 
-            <li>
+            <li class="border-hover">
                 <a href="calificaciones.html">Calificaciones</a>
             </li>
 
-            <li>
+            <li class="border-hover">
                 <a href="trimestres.html">Trimestres</a>
             </li>
         </ul>
-
+    
         <ul>
-            <li class="border-hover">
+            <li>
                 <a href="perfil.html">Mi nombre</a>
             </li>
 
-            <li class="border-hover">
-                <a href="cerrar-seción.html">Cerrar seción</a>
+            <li>
+                <a href="cerrar-secion.html">Cerrar secion</a>
             </li>
 
-
         </ul>
-
     </nav>
 
     <main>
-        <section>
+        <section class="w-full md:w-4/12">
             <p>Datos del trimestre</p>
+            <form action="" id="formulario">
+                <label for="">
+                    Trimestre
+                    <input id="nombre" type="text" required>
+                </label>
+
+                <label for="fecha_inicio">
+                    Fecha de inicio
+                    <input id="fecha_inicio" type="date" required>
+                </label>
+
+                <label for="fecha_fin">
+                    Fecha de fin
+                    <input id="fecha_fin" type="date" required>
+                </label>
+
+                <div class="footer">
+                    <button id="guardar" type="button">
+                        Guardar
+                    </button>
+                </div>
+
+            </form>
         </section>
 
-        <section>
+        <section class="w-full md:w-8/12">
             <p>Trimestres registrados</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nombre</th>
+                        <th>Fechas</th>
+                        <th>Tareas</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>I Trimetre</td>
+                        <td>01/01/2023 - 30/04/2023</td>
+                        <td>
+                            <div class="tareas">
+                                <button class="editar">Editar</button>
+                                <button class="eliminar">Eliminar</button>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
         </section>
     </main>
 

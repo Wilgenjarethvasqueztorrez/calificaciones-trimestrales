@@ -1,13 +1,24 @@
 @tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
 
 body{
-    @apply text-white p-4 bg-gray-700;
+    @apply text-white bg-gray-200;
 }
 
-header{
-    @apply bg-opacity-90 font-bold py-10 text-center uppercase text-[2em] bg-gradient-to-b from-green-600 to-green-400;
+header {
+    @apply bg-opacity-90
+    font-bold
+    py-10
+    text-center
+    text-white
+    uppercase
+    text-[2em]
+    bg-gradient-to-b
+    from-blue-600
+    to-red-400
 }
 
 header img{
@@ -30,10 +41,6 @@ nav{
     @apply flex justify-between p-4 text-white shadow-lg bg-gradient-to-b from-blue-500 to-blue-700 shadow-gray-400;
 }
 
-.border-hover{
-    @apply border-b-4 border-transparent hover:border-yellow-400;
-}
-
 nav li{
     @apply border-b-4 border-transparent;
 }
@@ -43,13 +50,44 @@ nav li:hover{
 }
 
 nav ul{
-    @apply flex gap-4;
+    @apply flex gap-4
 }
 
-#datos{
-    color: antiquewhite;
+.border-hover{
+    @apply border-b-4 border-transparent hover:border-yellow-400;
+}
+  
+input {
+    @apply w-full p-2 rounded-lg ring-2 ring-blue-200 focus:ring-blue-400 focus:border-none focus:outline-none;
 }
 
-#trimestres{
-    color: aliceblue;
+button[type="button"], button {
+    @apply px-4 py-2 
+ text-white 
+ bg-blue-400 rounded-lg hover:bg-blue-500 active:bg-blue-600
+    active:ring-4
+    active:top-[2px] active:relative; 
+}
+
+.footer {
+    @apply relative bottom-0 flex justify-end p-2 mt-4 bg-blue-100 border-t border-green-700 border-dashed rounded-b-lg;
+}
+
+table{
+    @apply w-full;
+}
+td{
+    @apply py-2 border-b border-gray-200;
+}
+/*Div que contiene los botones de editar y eliminar*/
+.tareas{
+    @apply flex items-start justify-center gap-2;
+}
+
+/*Estilos para los botones de editar y eliminar*/
+.editar {
+    @apply bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 active:ring-yellow-500 active:ring-4;
+}
+.eliminar {
+    @apply bg-red-400 hover:bg-red-500 active:bg-red-600 active:ring-red-500 active:ring-4;
 }
