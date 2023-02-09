@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis calificaciones</title>
-
     <link rel="stylesheet" href="./src/css/estilos.css">
-
 </head>
-
 <body>
     <header>
-        <!--Insertar el logo de la universidad-->
-        <img src="./src/images/logo.png" alt="Logo de la universidad">
-        Administracion de mis calificaciones
+        <!-- Insertar el logo de la universidad -->
+        <img src="./src/images/logo.png" 
+            alt="Logo de la universidad">
+        Administración de mis calificaciones
     </header>
 
     <nav>
         <ul>
-            <li class="border-hover">
+            <li>
                 <a href="index.html">Inicio</a>
             </li>
 
-            <li class="border-hover">
+            <li>
                 <a href="calificaciones.html">Calificaciones</a>
             </li>
 
-            <li class="border-hover">
+            <li>
                 <a href="trimestres.html">Trimestres</a>
             </li>
         </ul>
@@ -39,17 +36,16 @@
             </li>
 
             <li>
-                <a href="cerrar-secion.html">Cerrar secion</a>
+                <a href="cerrar-sesión.html">Cerrar sesión</a>
             </li>
-
         </ul>
     </nav>
 
-    <main>
-        <section class="w-full md:w-4/12">
+    <main>       
+        <section class="w-full md:w-4/12 ">
             <p>Datos del trimestre</p>
             <form action="" id="formulario">
-                <label for="">
+                <label for="nombre">
                     Trimestre
                     <input name="nombre" type="text" required>
                 </label>
@@ -69,13 +65,12 @@
                         Guardar
                     </button>
                 </div>
-
+                
             </form>
         </section>
 
         <section class="w-full md:w-8/12">
             <p>Trimestres registrados</p>
-
             <table>
                 <thead>
                     <tr>
@@ -87,85 +82,119 @@
                 </thead>
 
                 <tbody id="trimestres">
-
+                               
                 </tbody>
             </table>
-
         </section>
     </main>
+    <!-- Incluir el modelo trimestres para manipular la coleccion -->
+    <script type="module" >
+        import {guardarTrimestre, obtenerTrimestres, obtenerTrimestre, actualizarTrimestre} from './src/modelos/trimestres.js';
+        // Obtener el formulario
+        const formulario = document.getElementById('formulario');
 
-    <!-- Incluir el modelos trimestres para manipular la coleccion -->
-    <script type="module">
-        import { guardarTrimestre, obtenerTrimestres } from "./src/modelos/trimestres.js";
+        // Obtener el boton guardar
+        const botonGuardar = document.getElementById('guardar');
+        
+        // Obtener el tbody de la tabla
+        const tbody = document.getElementById("trimestres");
+        
+        //Flag para saber si estamos editando o creando un trimestre
+        let editStatus = false;
 
-        const tbody = document.getElementById("trimestres")
-
-        //Obtener los datos del servidor usando el evento
-        //DOMContentload
+        // Variable para almacenar el id del trimestre a editar
+        let id = '';
+        
+        // Obtener los trimestres del servidor usando el evento
+        // DOMContentLoaded
         document.addEventListener('DOMContentLoaded', async () => {
             await obtenerTrimestres((datos) => {
                 
-                tbody.innerHTML = ''
+                tbody.innerHTML = '';
+                
+                datos.forEach((trimestre) => {
 
-                datos.forEach((trimestres) => {
                     tbody.innerHTML += `
-                        <tr>
-                            <td>1</td>
-                            <td>${trimestres.nombre}</td>
-                            <td>${trimestres.fecha_inicio} - ${trimestres.fecha_fin}</td>
-                            <td>
-                                <div class="tareas">
-                                    <button data-id="${trimestres.id}" class="editar">Editar</button>
-                                    <button data-id="${trimestres.id}" class="eliminar">Eliminar</button>
-                                </div>
-                            </td>
-                        
-                        </tr>`
-
-
-                })
+                    <tr>
+                        <td>1</td>
+                        <td>${trimestre.nombre}</td>
+                        <td>${trimestre.fecha_inicio} - ${trimestre.fecha_fin}</td>
+                        <td>
+                            <div class="tareas">
+                                <button data-id="${trimestre.id}" class="editar">Editar</button>
+                                <button data-id="${trimestre.id}" class="eliminar">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                    `;
+                });
+                
                 //Evento para editar los trimestres al dar clic en el boton .editar
                 const btnsEditar = document.querySelectorAll('.editar');
 
                 btnsEditar.forEach((btn) => {
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener('click', async () => {
+                        
+                        //Cambiar el estado de la bandera
+                        editStatus = true;
 
-                        console.log(btn.dataset.id);
-                    })
-                })
-            })
+                        //Obtener el id del trimestre
+                        id = btn.dataset.id;                    
+                        
+                        try {
+                            // Obtener los datos del trimestre
+                            const trimestre = await obtenerTrimestre(id);
+                            
+                            // Asignar los datos al formulario
+                            formulario.nombre.value = trimestre.nombre;
+                            formulario.fecha_inicio.value = trimestre.fecha_inicio;
+                            formulario.fecha_fin.value = trimestre.fecha_fin;
+                            
 
-        })
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    });
+                });                
+            });
+        });
+        
 
-        //Obtener el formulario
-        const formulario = document.getElementById("formulario");
+        
 
-        //Obtener boton guardar
-        const botonGuardar = document.getElementById("guardar");
-
-        ///Agregar un evento al boton guardar
-        botonGuardar.addEventListener("click", () => {
-            //Obtener los datos del formulario
+        // Agregar un evento al boton guardar
+        botonGuardar.addEventListener('click', () => {
+            // Obtener los datos del formulario
             const nombre = formulario.nombre.value;
             const fecha_inicio = formulario.fecha_inicio.value;
             const fecha_fin = formulario.fecha_fin.value;
 
-            //Crear un objecto con los datos del formulario
+            // Crear un objeto con los datos del formulario
             const datos = {
                 nombre,
                 fecha_inicio,
                 fecha_fin
             };
 
-            //Guardar los datos
-            guardarTrimestre(datos);
+            // Si estamos editando
+            if(editStatus){
+                // Actualizar los datos del trimestre  
+                actualizarTrimestre(id, datos);
+                
+                //Cambiar la bandera a false
+                editStatus = false;
+                
+                //Resetear el id
+                id = '';
+            }else{
+                // Guardar los datos en el servidor
+                guardarTrimestre(datos);
+            }
 
             //Limpiar el formulario
             formulario.reset();
         });
 
     </script>
-
 </body>
-
 </html>
