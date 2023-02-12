@@ -1,1 +1,1 @@
-# clalificaciones-trimestrales
+# calificaciones-trimestrales
